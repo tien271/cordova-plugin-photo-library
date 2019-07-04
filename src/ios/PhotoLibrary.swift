@@ -227,13 +227,15 @@ import Photos
 
         let service = PhotoLibraryService.instance
 
+        let options = command.arguments[0] as! NSDictionary
+        let openSettingsOnDeny = options["iOSOpenSettingsOnDeny"] as! Bool
         service.requestAuthorization({
             let pluginResult = CDVPluginResult(status: CDVCommandStatus_OK)
             self.commandDelegate!.send(pluginResult, callbackId: command.callbackId	)
         }, failure: { (err) in
             let pluginResult = CDVPluginResult(status: CDVCommandStatus_ERROR, messageAs: err)
             self.commandDelegate!.send(pluginResult, callbackId: command.callbackId	)
-        })
+        }, openSettingsOnDeny: openSettingsOnDeny )
 
     }
 

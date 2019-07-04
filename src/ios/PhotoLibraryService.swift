@@ -465,7 +465,7 @@ final class PhotoLibraryService {
 
     }
 
-    func requestAuthorization(_ success: @escaping () -> Void, failure: @escaping (_ err: String) -> Void ) {
+    func requestAuthorization(_ success: @escaping () -> Void, failure: @escaping (_ err: String) -> Void, openSettingsOnDeny: Bool ) {
 
         let status = PHPhotoLibrary.authorizationStatus()
 
@@ -487,14 +487,18 @@ final class PhotoLibraryService {
             return
         }
 
-        // Permission was manually denied by user, open settings screen
-        let settingsUrl = URL(string: UIApplicationOpenSettingsURLString)
-        if let url = settingsUrl {
-            UIApplication.shared.openURL(url)
-            // TODO: run callback only when return ?
-            // Do not call success, as the app will be restarted when user changes permission
+        if (openSettingsOnDeny) {
+            // Permission was manually denied by user, open settings screen
+            let settingsUrl = URL(string: UIApplicationOpenSettingsURLString)
+            if let url = settingsUrl {
+                UIApplication.shared.openURL(url)
+                // TODO: run callback only when return ?
+                // Do not call success, as the app will be restarted when user changes permission
+            } else {
+                failure("could not open settings url")
+            }
         } else {
-            failure("could not open settings url")
+            failure("user denied photo access before")
         }
 
     }
