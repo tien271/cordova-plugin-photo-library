@@ -309,9 +309,8 @@ var getRequestAuthenticationOptionsWithDefaults = function (options) {
   }
 
   options = {
-    read: options.read === undefined ? true : options.read,
+    read: options.read || true,
     write: options.write || false,
-    iOSOpenSettingsOnDeny: options.iOSOpenSettingsOnDeny === undefined ? true : options.iOSOpenSettingsOnDeny,
   };
 
   return options;
