@@ -10,14 +10,6 @@ import Photos
         // Do not call PhotoLibraryService here, as it will cause permission prompt to appear on app start.
 
         URLProtocol.registerClass(PhotoLibraryProtocol.self)
-        
-        let status = PHPhotoLibrary.authorizationStatus()
-
-        if (status == PHAuthorizationStatus.notDetermined) {
-            // Access has not been determined.
-            PHPhotoLibrary.requestAuthorization({ (newStatus) in
-            })
-        }
 
     }
 
@@ -227,13 +219,15 @@ import Photos
 
         let service = PhotoLibraryService.instance
 
+        let options = command.arguments[0] as! NSDictionary
+        let openSettingsOnDeny = options["iOSOpenSettingsOnDeny"] as! Bool
         service.requestAuthorization({
             let pluginResult = CDVPluginResult(status: CDVCommandStatus_OK)
             self.commandDelegate!.send(pluginResult, callbackId: command.callbackId	)
         }, failure: { (err) in
             let pluginResult = CDVPluginResult(status: CDVCommandStatus_ERROR, messageAs: err)
             self.commandDelegate!.send(pluginResult, callbackId: command.callbackId	)
-        })
+        }, openSettingsOnDeny: openSettingsOnDeny )
 
     }
 
