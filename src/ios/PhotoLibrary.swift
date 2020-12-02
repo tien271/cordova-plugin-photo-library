@@ -10,14 +10,6 @@ import Photos
         // Do not call PhotoLibraryService here, as it will cause permission prompt to appear on app start.
 
         URLProtocol.registerClass(PhotoLibraryProtocol.self)
-        
-        let status = PHPhotoLibrary.authorizationStatus()
-
-        if (status == PHAuthorizationStatus.notDetermined) {
-            // Access has not been determined.
-            PHPhotoLibrary.requestAuthorization({ (newStatus) in
-            })
-        }
 
     }
 
